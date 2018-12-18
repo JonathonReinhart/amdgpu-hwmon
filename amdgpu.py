@@ -6,6 +6,9 @@ from sysfs import SysFsObject
 def invert_map(m):
     return {v: k for k, v in m.items()}
 
+def c2f(c):
+    return (c / 100) * (212 - 32) + 32
+
 class AmdGpuHwmon:
     def __init__(self, cardnum=0):
         self.card = SysFsObject('/sys/class/drm/card{}'.format(cardnum))
@@ -73,7 +76,8 @@ def main():
 
 
     # Show
-    print("Temperature: {} C".format(a.temperature))
+    temp = a.temperature
+    print("Temperature: {:.1f} C ({:.1f} F)".format(temp, c2f(temp)))
 
     mode = a.fan_pwm_mode
     print("Fan mode: {} ({})".format(mode, invert_map(mode_map).get(mode, '???')))
