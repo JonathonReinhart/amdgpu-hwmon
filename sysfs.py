@@ -39,7 +39,7 @@ class SysFsObject(object):
 
         p = realpath(join(self._path, name))
         if isfile(p):
-            file(p, 'w').write(str(val))
+            open(p, 'w').write(str(val))
         else:
             raise RuntimeError
 
