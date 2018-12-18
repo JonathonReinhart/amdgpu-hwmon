@@ -16,9 +16,18 @@ class AmdGpuHwmon:
     def fan_pwm(self):
         return self.hwmon.pwm1 / self.hwmon.pwm1_max
 
+    @fan_pwm.setter
+    def fan_pwm(self, value):
+        self.hwmon.pwm1 = int(value * self.hwmon.pwm1_max)
+
     @property
     def fan_pwm_mode(self):
         return self.hwmon.pwm1_enable
+
+    @fan_pwm_mode.setter
+    def fan_pwm_mode(self, value):
+        self.hwmon.pwm1_enable = value
+
 
 
 def main():
@@ -32,6 +41,11 @@ def main():
             2: "automatic fan speed control",
         }.get(mode, "???")))
     print("Fan PWM: {:.02f} %".format(a.fan_pwm * 100))
+
+
+    a.fan_pwm_mode = 1
+    a.fan_pwm = 1.0
+
 
 if __name__ == '__main__':
     main()
